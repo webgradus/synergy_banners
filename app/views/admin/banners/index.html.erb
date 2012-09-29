@@ -1,0 +1,34 @@
+<div class="toolbar">
+  <ul class="actions">
+    <li id="new_banner_link">
+      <%= link_to new_admin_banner_url, :class => "button", :id => "admin_new_banner" do %>
+        <span><%= image_tag "/images/admin/icons/add.png", :alt => "Add" %> <%= t("new_banner") %></span>
+      <% end %>
+    </li>
+  </ul>
+  <br class="clear">
+</div>
+<h1><%= t("listing_banners") %></h1>
+<table class="index" id='listing_banners'>
+  <thead>
+    <tr>
+      <%= hook :admin_banners do %>
+        <th><%= t("activerecord.attributes.banner.attachment_file_name") %></th>
+        <th><%= t("activerecord.attributes.banner.attachment") %></th>
+        <th></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+  <% @banners.each do |banner| %>
+    <tr>
+      <%- locals = {:banner => banner} %>
+      <%= hook :admin_banners_index_rows, locals do %>
+        <td><%= banner.attachment_file_name %></td>
+        <td><%= image_tag(banner.attachment.url) %></td>
+        <td class="actions"><%= link_to t("delete"), admin_banner_path(banner), :method => :delete %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
